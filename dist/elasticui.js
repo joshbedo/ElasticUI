@@ -629,43 +629,48 @@ var elasticui;
                 $scope.indexVM = this.indexVM;
                 $scope.ejs = $window.ejs; // so we can use ejs in attributes etc. TODO: better to have a ejs service instead of loading from window
                 $scope.filters = this.filters;
+                $scope.isQuerySet = function () {
+                    console.log(this.indexVM.query);
+                    return this.indexVM.query != null;
+                };
+                console.log('why are breakpoints not working');
                 $scope.$watchCollection('indexVM.filters.ejsObjects', function () {
                     _this.indexVM.page = 1;
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watchCollection('indexVM.aggregationProviders.objects', function () {
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watch('indexVM.host', function () {
-                    if (_this.indexVM.host != null && es.setHost(_this.indexVM.host) && _this.indexVM.query != null) {
+                    if (_this.indexVM.host != null && es.setHost(_this.indexVM.host) && $scope.isQuerySet()) {
                         _this.search();
                     }
                 });
                 $scope.$watch('indexVM.sort', function () {
                     _this.indexVM.page = 1;
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watch('indexVM.pageSize', function () {
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watch('indexVM.page', function () {
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watch('indexVM.index', function () {
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watch('indexVM.query', function () {
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $scope.$watch('indexVM.highlight', function () {
-                    if (_this.indexVM.query != null)
+                    if ($scope.isQuerySet())
                         return _this.search();
                 });
                 $timeout(function () { return _this.loaded(); }, 200); // TODO: find better way to recognize loading of app
@@ -673,7 +678,7 @@ var elasticui;
             IndexController.prototype.loaded = function () {
                 if (!this.indexVM.loaded) {
                     this.indexVM.loaded = true;
-                    if (this.indexVM.autoLoad) {
+                    if (this.indexVM.autoLoad && this.indexVM.query != null) {
                         this.search();
                     }
                 }
