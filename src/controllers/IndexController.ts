@@ -43,16 +43,45 @@ module elasticui.controllers {
             $scope.indexVM = this.indexVM;
             $scope.ejs = $window.ejs; // so we can use ejs in attributes etc. TODO: better to have a ejs service instead of loading from window
             $scope.filters = this.filters;
-            $scope.$watchCollection('indexVM.filters.ejsObjects', () => { this.indexVM.page = 1; this.search() });
-            $scope.$watchCollection('indexVM.aggregationProviders.objects', () => this.search());
+            $scope.$watchCollection('indexVM.filters.ejsObjects', () => {
+                this.indexVM.page = 1;
+                if (this.indexVM.query != null) return this.search();
+            });
 
-            $scope.$watch('indexVM.host', () => { if (this.indexVM.host != null && es.setHost(this.indexVM.host)) { this.search(); } });
-            $scope.$watch('indexVM.sort',() => { this.indexVM.page = 1; this.search() });
-            $scope.$watch('indexVM.pageSize',() => { this.indexVM.page = 1; this.search() });
-            $scope.$watch('indexVM.page', () => this.search());
-            $scope.$watch('indexVM.index', () => this.search());
-            $scope.$watch('indexVM.query', () => this.search());
-            $scope.$watch('indexVM.highlight', () => this.search());
+            $scope.$watchCollection('indexVM.aggregationProviders.objects', () => {
+                if (this.indexVM.query != null) return this.search();
+            });
+
+            $scope.$watch('indexVM.host', () => {
+                if (this.indexVM.host != null && es.setHost(this.indexVM.host) && this.indexVM.query != null) {
+                    this.search();
+                }
+            });
+
+            $scope.$watch('indexVM.sort',() => {
+                this.indexVM.page = 1;
+                if (this.indexVM.query != null) return this.search();
+            });
+
+            $scope.$watch('indexVM.pageSize',() => {
+                if (this.indexVM.query != null) return this.search();
+            });
+
+            $scope.$watch('indexVM.page', () => {
+                if (this.indexVM.query != null) return this.search();
+            });
+
+            $scope.$watch('indexVM.index', () => {
+                if (this.indexVM.query != null) return this.search();
+            });
+
+            $scope.$watch('indexVM.query', () => {
+                if (this.indexVM.query != null) return this.search();
+            });
+
+            $scope.$watch('indexVM.highlight', () => {
+                if (this.indexVM.query != null) return this.search();
+            });
 
             $timeout(() => this.loaded(), 200); // TODO: find better way to recognize loading of app
         }
@@ -121,7 +150,7 @@ module elasticui.controllers {
                 var promiseToAbort = this.searchPromise;
                 this.searchPromise = null;
                 promiseToAbort.abort();
-            }  
+            }
 
             this.indexVM.loading = true;
             this.searchPromise = this.getSearchPromise();

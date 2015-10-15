@@ -453,7 +453,13 @@ var elasticui;
         filters.filters.filter('euiTimestamp', TimestampFilter);
     })(filters = elasticui.filters || (elasticui.filters = {}));
 })(elasticui || (elasticui = {}));
-angular.module('elasticui.controllers', []).controller(elasticui.controllers);
+var elasticui;
+(function (elasticui) {
+    var controllers;
+    (function (_controllers) {
+        _controllers.controllers = angular.module('elasticui.controllers', []);
+    })(controllers = elasticui.controllers || (elasticui.controllers = {}));
+})(elasticui || (elasticui = {}));
 var elasticui;
 (function (elasticui) {
     var controllers;
@@ -625,26 +631,43 @@ var elasticui;
                 $scope.filters = this.filters;
                 $scope.$watchCollection('indexVM.filters.ejsObjects', function () {
                     _this.indexVM.page = 1;
-                    _this.search();
+                    if (_this.indexVM.query != null)
+                        return _this.search();
                 });
-                $scope.$watchCollection('indexVM.aggregationProviders.objects', function () { return _this.search(); });
+                $scope.$watchCollection('indexVM.aggregationProviders.objects', function () {
+                    if (_this.indexVM.query != null)
+                        return _this.search();
+                });
                 $scope.$watch('indexVM.host', function () {
-                    if (_this.indexVM.host != null && es.setHost(_this.indexVM.host)) {
+                    if (_this.indexVM.host != null && es.setHost(_this.indexVM.host) && _this.indexVM.query != null) {
                         _this.search();
                     }
                 });
                 $scope.$watch('indexVM.sort', function () {
                     _this.indexVM.page = 1;
-                    _this.search();
+                    if (_this.indexVM.query != null)
+                        return _this.search();
                 });
                 $scope.$watch('indexVM.pageSize', function () {
-                    _this.indexVM.page = 1;
-                    _this.search();
+                    if (_this.indexVM.query != null)
+                        return _this.search();
                 });
-                $scope.$watch('indexVM.page', function () { return _this.search(); });
-                $scope.$watch('indexVM.index', function () { return _this.search(); });
-                $scope.$watch('indexVM.query', function () { return _this.search(); });
-                $scope.$watch('indexVM.highlight', function () { return _this.search(); });
+                $scope.$watch('indexVM.page', function () {
+                    if (_this.indexVM.query != null)
+                        return _this.search();
+                });
+                $scope.$watch('indexVM.index', function () {
+                    if (_this.indexVM.query != null)
+                        return _this.search();
+                });
+                $scope.$watch('indexVM.query', function () {
+                    if (_this.indexVM.query != null)
+                        return _this.search();
+                });
+                $scope.$watch('indexVM.highlight', function () {
+                    if (_this.indexVM.query != null)
+                        return _this.search();
+                });
                 $timeout(function () { return _this.loaded(); }, 200); // TODO: find better way to recognize loading of app
             }
             IndexController.prototype.loaded = function () {

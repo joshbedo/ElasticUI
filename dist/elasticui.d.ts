@@ -98,6 +98,9 @@ declare module elasticui.filters {
     }
 }
 declare module elasticui.controllers {
+    var controllers: ng.IModule;
+}
+declare module elasticui.controllers {
     interface IAggregationScope extends IIndexScope {
         aggResult: any;
         aggregation: {
