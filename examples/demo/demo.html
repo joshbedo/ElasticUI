@@ -4,9 +4,9 @@
     <title>ElasticUI Demo</title>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <script src="http://code.angularjs.org/1.2.16/angular.js"></script>
-    <script src="./lib/elasticsearch.angular.js"></script>
-    <script src="./lib/elastic.js"></script>
-    <script src="../../dist/elasticui.min.js"></script>
+    <script src="http://rawgit.com/YousefED/ElasticUI/master/examples/demo/lib/elasticsearch.angular.js"></script>
+    <script src="http://rawgit.com/YousefED/ElasticUI/master/examples/demo/lib/elastic.js"></script>
+    <script src="http://rawgit.com/YousefED/ElasticUI/master/dist/elasticui.min.js"></script>
     <style>
         .sidebar {
             position: fixed;
@@ -33,18 +33,18 @@
             .constant('euiHost', 'http://localhost:9200'); // ACTION: change to cluster address
     </script>
 </head>
-<body ng-app="tutorial" eui-index="'bookings'"><!-- ACTION: change to index name -->
+<body ng-app="tutorial" eui-index="'CHANGE_TO_INDEX'"><!-- ACTION: change to index name -->
 
     <div class="container-fluid">
 
         <div class="row">
             <div class="col-xs-3 sidebar">
                 <h3>Search</h3>
-                <eui-searchbox field="'metro'"></eui-searchbox> <!-- ACTION: change to field to search on -->
+                <eui-searchbox field="'CHANGE_TO_FIELD'"></eui-searchbox> <!-- ACTION: change to field to search on -->
                 <h3>Single select facet</h3>
-                <eui-singleselect field="'metro'" size="5"></eui-singleselect> <!-- ACTION: change to field to use as facet -->
+                <eui-singleselect field="'CHANGE_TO_FIELD'" size="5"></eui-singleselect> <!-- ACTION: change to field to use as facet -->
                 <h3>Multi select facet</h3>
-                <eui-checklist field="'metro'" size="10"></eui-checklist> <!-- ACTION: change to field to use as facet -->
+                <eui-checklist field="'CHANGE_TO_FIELD'" size="10"></eui-checklist> <!-- ACTION: change to field to use as facet -->
                 <h3>Results Per Page</h3>
                 <select ng-model="indexVM.pageSize">
                     <option ng-repeat="item in [10, 20, 50, 100]">{{item}}</option>

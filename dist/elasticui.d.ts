@@ -175,6 +175,7 @@ declare module elasticui.controllers {
         loaded(): void;
         static $inject: string[];
         constructor($scope: any, $timeout: any, $window: any, es: services.ElasticService, $rootScope: any);
+        private isQuerySet();
         private getSearchPromise();
         private searchPromise;
         private refreshPromise;

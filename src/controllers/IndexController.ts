@@ -29,7 +29,7 @@ module elasticui.controllers {
             if (!this.indexVM.loaded) {
                 this.indexVM.loaded = true;
 
-                if (this.indexVM.autoLoad && this.indexVM.query != null) {
+                if (this.indexVM.autoLoad && this.isQuerySet()) {
                     this.search();
                 }
             }
@@ -44,22 +44,17 @@ module elasticui.controllers {
             $scope.ejs = $window.ejs; // so we can use ejs in attributes etc. TODO: better to have a ejs service instead of loading from window
             $scope.filters = this.filters;
 
-            $scope.isQuerySet = function() {
-                return this.indexVM.query != null;
-            };
-
-
             $scope.$watchCollection('indexVM.filters.ejsObjects', () => {
                 this.indexVM.page = 1;
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watchCollection('indexVM.aggregationProviders.objects', () => {
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watch('indexVM.host', () => {
-                if (this.indexVM.host != null && es.setHost(this.indexVM.host) && $scope.isQuerySet()) {
+                if (this.indexVM.host != null && es.setHost(this.indexVM.host) && this.isQuerySet()) {
                     this.search();
                 }
             });
@@ -67,30 +62,34 @@ module elasticui.controllers {
             $scope.$watch('indexVM.sort',() => {
                 this.indexVM.page = 1;
 
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watch('indexVM.pageSize',() => {
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watch('indexVM.page', () => {
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watch('indexVM.index', () => {
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watch('indexVM.query', () => {
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $scope.$watch('indexVM.highlight', () => {
-                if ($scope.isQuerySet()) return this.search();
+                if (this.isQuerySet()) return this.search();
             });
 
             $timeout(() => this.loaded(), 200); // TODO: find better way to recognize loading of app
+        }
+
+        private isQuerySet() {
+            return this.indexVM.query != null;
         }
 
         private getSearchPromise() {
